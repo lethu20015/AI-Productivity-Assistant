@@ -10,33 +10,115 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as EmailRouteImport } from './routes/email'
+import { Route as HistoryRouteImport } from './routes/history'
+import { Route as PlannerRouteImport } from './routes/planner'
+import { Route as ResponsibleAiRouteImport } from './routes/responsible-ai'
+import { Route as SettingsRouteImport } from './routes/settings'
+import { Route as SummariserRouteImport } from './routes/summariser'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const EmailRoute = EmailRouteImport.update({
+  id: '/email',
+  path: '/email',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const HistoryRoute = HistoryRouteImport.update({
+  id: '/history',
+  path: '/history',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PlannerRoute = PlannerRouteImport.update({
+  id: '/planner',
+  path: '/planner',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ResponsibleAiRoute = ResponsibleAiRouteImport.update({
+  id: '/responsible-ai',
+  path: '/responsible-ai',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SettingsRoute = SettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SummariserRoute = SummariserRouteImport.update({
+  id: '/summariser',
+  path: '/summariser',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/email': typeof EmailRoute
+  '/history': typeof HistoryRoute
+  '/planner': typeof PlannerRoute
+  '/responsible-ai': typeof ResponsibleAiRoute
+  '/settings': typeof SettingsRoute
+  '/summariser': typeof SummariserRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/email': typeof EmailRoute
+  '/history': typeof HistoryRoute
+  '/planner': typeof PlannerRoute
+  '/responsible-ai': typeof ResponsibleAiRoute
+  '/settings': typeof SettingsRoute
+  '/summariser': typeof SummariserRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/email': typeof EmailRoute
+  '/history': typeof HistoryRoute
+  '/planner': typeof PlannerRoute
+  '/responsible-ai': typeof ResponsibleAiRoute
+  '/settings': typeof SettingsRoute
+  '/summariser': typeof SummariserRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/email'
+    | '/history'
+    | '/planner'
+    | '/responsible-ai'
+    | '/settings'
+    | '/summariser'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/email'
+    | '/history'
+    | '/planner'
+    | '/responsible-ai'
+    | '/settings'
+    | '/summariser'
+  id:
+    | '__root__'
+    | '/'
+    | '/email'
+    | '/history'
+    | '/planner'
+    | '/responsible-ai'
+    | '/settings'
+    | '/summariser'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  EmailRoute: typeof EmailRoute
+  HistoryRoute: typeof HistoryRoute
+  PlannerRoute: typeof PlannerRoute
+  ResponsibleAiRoute: typeof ResponsibleAiRoute
+  SettingsRoute: typeof SettingsRoute
+  SummariserRoute: typeof SummariserRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +130,59 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/email': {
+      id: '/email'
+      path: '/email'
+      fullPath: '/email'
+      preLoaderRoute: typeof EmailRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/history': {
+      id: '/history'
+      path: '/history'
+      fullPath: '/history'
+      preLoaderRoute: typeof HistoryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/planner': {
+      id: '/planner'
+      path: '/planner'
+      fullPath: '/planner'
+      preLoaderRoute: typeof PlannerRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/responsible-ai': {
+      id: '/responsible-ai'
+      path: '/responsible-ai'
+      fullPath: '/responsible-ai'
+      preLoaderRoute: typeof ResponsibleAiRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/settings': {
+      id: '/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof SettingsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/summariser': {
+      id: '/summariser'
+      path: '/summariser'
+      fullPath: '/summariser'
+      preLoaderRoute: typeof SummariserRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  EmailRoute: EmailRoute,
+  HistoryRoute: HistoryRoute,
+  PlannerRoute: PlannerRoute,
+  ResponsibleAiRoute: ResponsibleAiRoute,
+  SettingsRoute: SettingsRoute,
+  SummariserRoute: SummariserRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
