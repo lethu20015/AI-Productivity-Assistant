@@ -20,7 +20,7 @@ export const Route = createFileRoute("/summariser")({
       },
     ],
   }),
-  component: Summariser;
+  component: Summariser,
 });
 
 const sampleNotes = `Reviewed Q3 delivery progress across all squads
