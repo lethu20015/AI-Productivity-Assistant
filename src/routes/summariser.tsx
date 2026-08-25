@@ -1,19 +1,19 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
-import { FileText, CheckCircle2, Gavel, CalendarClock } from "lucide-react";
+import { FileText, CheckCircle2, Gavel, CalendarClock, Loader2, AlertCircle } from "lucide-react";
 import { Disclaimer, PageHeader, Field, inputClass, buttonClass } from "@/components/Disclaimer";
 import { summariseNotes, demoSummary, type MeetingSummary } from "@/lib/deskflow";
 
 export const Route = createFileRoute("/summariser")({
   head: () => ({
     meta: [
-      { title: "Meeting Summariser — DeskFlow AI" },
+      { title: "Meeting Notes Summarizer — Your AI Productivity Hub" },
       {
         name: "description",
         content:
           "Turn raw meeting notes into a summary with key points, decisions, action items, owners and deadlines.",
       },
-      { property: "og:title", content: "Meeting Summariser — DeskFlow AI" },
+      { property: "og:title", content: "Meeting Notes Summarizer — Your AI Productivity Hub" },
       {
         property: "og:description",
         content: "Decisions, owners and deadlines pulled out of messy meeting notes.",
@@ -36,13 +36,32 @@ Priya will prepare the regression test suite before the freeze`;
 function Summariser() {
   const [notes, setNotes] = useState(sampleNotes);
   const [result, setResult] = useState<MeetingSummary | null>(demoSummary);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState(false);
+
+  const run = () => {
+    setSuccess(false);
+    if (notes.trim().length < 20) {
+      setError("Paste at least a few lines of notes so the summary has something to work with.");
+      return;
+    }
+    setError(null);
+    setLoading(true);
+    setResult(null);
+    setTimeout(() => {
+      setResult(summariseNotes(notes));
+      setLoading(false);
+      setSuccess(true);
+    }, 1000);
+  };
 
   return (
     <div>
       <PageHeader
-        eyebrow="Meeting Summariser"
-        title="Make sense of your meeting notes"
-        description="Paste raw notes or a transcript. DeskFlow separates what was discussed from what was decided and who owes what."
+        eyebrow="Notes Summarizer"
+        title="Meeting Notes Summarizer"
+        description="Paste raw notes or a transcript. The assistant separates what was discussed from what was decided and who owes what."
       />
 
       <div className="card-surface p-5 sm:p-6">
@@ -56,15 +75,36 @@ function Summariser() {
         </Field>
         <button
           type="button"
-          onClick={() => setResult(summariseNotes(notes))}
+          onClick={run}
+          disabled={loading}
           className={`${buttonClass} mt-4 w-full sm:w-auto`}
         >
-          <FileText className="h-4 w-4" />
-          Summarise notes
+          {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <FileText className="h-4 w-4" />}
+          {loading ? "Summarising…" : "Summarise notes"}
         </button>
+        {error && (
+          <p className="mt-4 flex items-center gap-2 rounded-xl bg-destructive/10 px-3.5 py-3 text-sm text-destructive">
+            <AlertCircle className="h-4 w-4 shrink-0" />
+            {error}
+          </p>
+        )}
+        {success && !loading && (
+          <p className="mt-4 flex items-center gap-2 rounded-xl bg-accent px-3.5 py-3 text-sm font-medium text-accent-foreground">
+            <CheckCircle2 className="h-4 w-4 shrink-0" />
+            Summary ready.
+          </p>
+        )}
       </div>
 
-      {result && (
+      {loading && (
+        <div className="card-surface mt-6 space-y-3 p-6">
+          <div className="h-4 w-1/3 animate-pulse rounded bg-secondary" />
+          <div className="h-3 w-full animate-pulse rounded bg-secondary" />
+          <div className="h-3 w-5/6 animate-pulse rounded bg-secondary" />
+        </div>
+      )}
+
+      {result && !loading && (
         <div className="mt-6 space-y-5">
           <section className="card-surface p-5 sm:p-6">
             <h2 className="text-lg text-foreground">Concise summary</h2>

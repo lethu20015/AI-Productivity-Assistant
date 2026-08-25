@@ -5,15 +5,15 @@ import { PageHeader, Field, inputClass } from "@/components/Disclaimer";
 export const Route = createFileRoute("/settings")({
   head: () => ({
     meta: [
-      { title: "Settings — DeskFlow AI" },
+      { title: "Settings — Your AI Productivity Hub" },
       {
         name: "description",
         content: "Manage your profile, default writing tone, working hours and review preferences.",
       },
-      { property: "og:title", content: "Settings — DeskFlow AI" },
+      { property: "og:title", content: "Settings — Your AI Productivity Hub" },
       {
         property: "og:description",
-        content: "Tune DeskFlow AI to your working style and review preferences.",
+        content: "Tune Your AI Productivity Hub to your working style and review preferences.",
       },
     ],
   }),
@@ -58,7 +58,7 @@ function SettingsPage() {
       <PageHeader
         eyebrow="Settings"
         title="Preferences"
-        description="Set the defaults DeskFlow uses when it drafts, summarises and schedules for you."
+        description="Set the defaults the hub uses when it drafts, summarises and schedules for you."
       />
 
       <div className="space-y-6">

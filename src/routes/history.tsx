@@ -7,12 +7,12 @@ import { historyItems } from "@/lib/deskflow";
 export const Route = createFileRoute("/history")({
   head: () => ({
     meta: [
-      { title: "History — DeskFlow AI" },
+      { title: "History — Your AI Productivity Hub" },
       {
         name: "description",
-        content: "Every email, summary and plan DeskFlow AI has generated for you, in one place.",
+        content: "Every email, summary and plan Your AI Productivity Hub has generated for you, in one place.",
       },
-      { property: "og:title", content: "History — DeskFlow AI" },
+      { property: "og:title", content: "History — Your AI Productivity Hub" },
       {
         property: "og:description",
         content: "Revisit your generated emails, meeting summaries and task plans.",
@@ -34,7 +34,7 @@ function HistoryPage() {
       <PageHeader
         eyebrow="History"
         title="Everything you've generated"
-        description="Your recent DeskFlow outputs, ready to reopen, reuse or refine."
+        description="Your recent AI outputs, ready to reopen, reuse or refine."
       />
 
       <div className="flex flex-wrap gap-2">

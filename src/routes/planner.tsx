@@ -1,19 +1,19 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
-import { Plus, Trash2, Sparkles, CalendarDays, Lightbulb } from "lucide-react";
+import { Plus, Trash2, Sparkles, CalendarDays, Lightbulb, Loader2, CheckCircle2, AlertCircle } from "lucide-react";
 import { Disclaimer, PageHeader, Field, inputClass, buttonClass } from "@/components/Disclaimer";
 import { planTasks, type Priority, type Task } from "@/lib/deskflow";
 
 export const Route = createFileRoute("/planner")({
   head: () => ({
     meta: [
-      { title: "Task Planner — DeskFlow AI" },
+      { title: "AI Task Planner — Your AI Productivity Hub" },
       {
         name: "description",
         content:
           "Add tasks with deadlines and priorities and get a structured daily and weekly schedule with time management suggestions.",
       },
-      { property: "og:title", content: "Task Planner — DeskFlow AI" },
+      { property: "og:title", content: "AI Task Planner — Your AI Productivity Hub" },
       {
         property: "og:description",
         content: "Prioritised daily and weekly scheduling for your real workload.",
@@ -48,8 +48,31 @@ function Planner() {
   const [priority, setPriority] = useState<Priority>("Medium");
   const [plan, setPlan] = useState<ReturnType<typeof planTasks> | null>(() => planTasks(seedTasks));
 
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState(false);
+
+  const generate = () => {
+    setSuccess(false);
+    if (tasks.length === 0) {
+      setError("Add at least one task before generating a plan.");
+      return;
+    }
+    setError(null);
+    setLoading(true);
+    setTimeout(() => {
+      setPlan(planTasks(tasks));
+      setLoading(false);
+      setSuccess(true);
+    }, 900);
+  };
+
   const addTask = () => {
-    if (!title.trim()) return;
+    if (!title.trim()) {
+      setError("Give the task a short title.");
+      return;
+    }
+    setError(null);
     setTasks((prev) => [
       ...prev,
       { id: crypto.randomUUID(), title: title.trim(), deadline, priority },
@@ -64,7 +87,7 @@ function Planner() {
       <PageHeader
         eyebrow="Task Planner"
         title="Plan your day around what matters"
-        description="Add everything on your plate. DeskFlow orders it by priority and deadline, then builds a realistic schedule."
+        description="Add everything on your plate. The planner orders it by priority and deadline, then builds a realistic schedule."
       />
 
       <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_340px]">
@@ -97,14 +120,6 @@ function Planner() {
               </li>
             ))}
           </ul>
-          <button
-            type="button"
-            onClick={() => setPlan(planTasks(tasks))}
-            className={`${buttonClass} mt-5 w-full sm:w-auto`}
-          >
-            <Sparkles className="h-4 w-4" />
-            Organise & schedule
-          </button>
         </div>
 
         <div className="card-surface h-fit space-y-4 p-5 sm:p-6">
@@ -151,10 +166,35 @@ function Planner() {
             <Plus className="h-4 w-4" />
             Add task
           </button>
+          <button
+            type="button"
+            onClick={generate}
+            disabled={loading}
+            className={`${buttonClass} mt-3 w-full`}
+          >
+            {loading ? (
+              <Loader2 className="h-4 w-4 animate-spin" />
+            ) : (
+              <Sparkles className="h-4 w-4" />
+            )}
+            {loading ? "Planning…" : "Generate plan"}
+          </button>
+          {error && (
+            <p className="mt-3 flex items-center gap-2 rounded-xl bg-destructive/10 px-3.5 py-3 text-sm text-destructive">
+              <AlertCircle className="h-4 w-4 shrink-0" />
+              {error}
+            </p>
+          )}
+          {success && !loading && (
+            <p className="mt-3 flex items-center gap-2 rounded-xl bg-accent px-3.5 py-3 text-sm font-medium text-accent-foreground">
+              <CheckCircle2 className="h-4 w-4 shrink-0" />
+              Schedule updated.
+            </p>
+          )}
         </div>
       </div>
 
-      {plan && (
+      {plan && !loading && (
         <div className="mt-8 space-y-5">
           <section className="card-surface p-5 sm:p-6">
             <div className="flex items-center gap-2">

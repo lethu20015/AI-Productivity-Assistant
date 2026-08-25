@@ -1,130 +1,139 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Mail, FileText, ListChecks, CheckCircle2, ArrowUpRight, Clock } from "lucide-react";
+import {
+  Mail,
+  FileText,
+  ListChecks,
+  Search,
+  ArrowRight,
+  Clock,
+  Zap,
+  TrendingUp,
+} from "lucide-react";
 import { Disclaimer } from "@/components/Disclaimer";
-import { historyItems } from "@/lib/deskflow";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "DeskFlow AI — Your workplace productivity assistant" },
+      { title: "Your AI Productivity Hub — AI workplace assistant" },
       {
         name: "description",
         content:
-          "DeskFlow AI drafts professional emails, summarises meeting notes and plans your day so you can focus on work that matters.",
+          "Automate emails, summarize meetings, plan your week and research smarter — all from one beautiful AI workspace.",
       },
-      { property: "og:title", content: "DeskFlow AI — Workplace productivity assistant" },
+      { property: "og:title", content: "Your AI Productivity Hub" },
       {
         property: "og:description",
-        content: "Write emails, summarise meetings and plan tasks in one calm workspace.",
+        content: "One workspace for AI email drafting, meeting summaries, planning and research.",
       },
     ],
   }),
   component: Dashboard,
 });
 
-const actions = [
+const stats = [
+  { icon: Clock, label: "Time Saved", value: "8.5h", caption: "Hours saved per week" },
+  { icon: Zap, label: "Faster Responses", value: "12×", caption: "Faster response time" },
+  { icon: TrendingUp, label: "Productivity", value: "100%", caption: "Editable and private" },
+];
+
+const tools = [
   {
     to: "/email",
     icon: Mail,
-    title: "Write an Email",
-    copy: "Turn a few notes into a polished, on-tone message in seconds.",
+    title: "Smart Email Generator",
+    copy: "Draft polished, professional emails in seconds with full tone and audience control.",
   },
   {
     to: "/summariser",
     icon: FileText,
-    title: "Summarise Notes",
-    copy: "Pull decisions, action items and owners out of messy meeting notes.",
+    title: "Meeting Notes Summarizer",
+    copy: "Turn long meeting notes into clear summaries, key decisions and action items.",
   },
   {
     to: "/planner",
     icon: ListChecks,
-    title: "Plan My Tasks",
-    copy: "Order your workload by priority and get a realistic day schedule.",
+    title: "AI Task Planner",
+    copy: "Organise your day, prioritise important tasks and create a smarter schedule.",
+  },
+  {
+    to: "/research",
+    icon: Search,
+    title: "AI Research Assistant",
+    copy: "Research topics, summarise information and get clear AI-powered insights.",
   },
 ] as const;
-
-const metrics = [
-  { label: "Tasks completed", value: "38", delta: "+6 this week", icon: CheckCircle2 },
-  { label: "Emails generated", value: "24", delta: "+9 this week", icon: Mail },
-  { label: "Notes summarised", value: "12", delta: "+3 this week", icon: FileText },
-];
 
 function Dashboard() {
   return (
     <div>
-      <header className="mb-9">
-        <p className="text-xs font-semibold uppercase tracking-[0.14em] text-primary">
-          Tuesday, 25 August
-        </p>
-        <h1 className="mt-2 text-3xl leading-tight text-foreground sm:text-[2.6rem]">
-          Good morning 👋 What would you like to accomplish today?
+      <section className="hero-gradient rounded-3xl border border-border px-6 py-10 sm:px-10 sm:py-14">
+        <span className="inline-flex items-center rounded-full bg-card/80 px-3 py-1.5 text-xs font-semibold text-primary">
+          ✨ Powered by AI
+        </span>
+        <h1 className="mt-5 max-w-3xl text-3xl leading-tight text-foreground sm:text-5xl">
+          Your <span className="text-primary">AI</span> workplace{" "}
+          <span className="text-primary">assistant</span>
         </h1>
-        <p className="mt-3 max-w-2xl text-sm leading-relaxed text-muted-foreground">
-          You have 5 tasks due today and 2 meetings to prepare for. Start with a quick action below.
+        <p className="mt-4 max-w-2xl text-sm leading-relaxed text-muted-foreground sm:text-base">
+          Automate emails, summarize meetings, plan your week, and research smarter — all from one
+          beautiful workspace.
         </p>
-      </header>
-
-      <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {actions.map(({ to, icon: Icon, title, copy }) => (
+        <div className="mt-7 flex flex-wrap gap-3">
           <Link
-            key={to}
-            to={to}
-            className="card-surface group flex flex-col justify-between p-5 transition hover:-translate-y-0.5 hover:border-primary/40"
+            to="/email"
+            className="inline-flex items-center gap-2 rounded-xl bg-primary px-5 py-3 text-sm font-semibold text-primary-foreground transition hover:opacity-90"
           >
-            <span className="grid h-11 w-11 place-items-center rounded-xl bg-accent text-accent-foreground">
+            Start with AI →
+          </Link>
+          <Link
+            to="/chat"
+            className="inline-flex items-center gap-2 rounded-xl border border-border bg-card px-5 py-3 text-sm font-semibold text-foreground transition hover:border-primary/50 hover:text-primary"
+          >
+            Open AI Chat
+          </Link>
+        </div>
+      </section>
+
+      <section className="mt-8 grid gap-4 sm:grid-cols-3">
+        {stats.map(({ icon: Icon, label, value, caption }) => (
+          <div key={label} className="card-surface p-5">
+            <span className="grid h-11 w-11 place-items-center rounded-full bg-accent text-primary">
               <Icon className="h-5 w-5" strokeWidth={2} />
             </span>
-            <span className="mt-5 flex items-center gap-1.5 text-lg font-semibold tracking-tight text-foreground">
-              {title}
-              <ArrowUpRight className="h-4 w-4 text-primary opacity-0 transition group-hover:opacity-100" />
-            </span>
-            <span className="mt-1.5 text-sm leading-relaxed text-muted-foreground">{copy}</span>
-          </Link>
+            <p className="mt-4 text-sm font-medium text-muted-foreground">{label}</p>
+            <p className="mt-1 text-3xl font-semibold tracking-tight text-foreground">{value}</p>
+            <p className="mt-1 text-xs text-muted-foreground">{caption}</p>
+          </div>
         ))}
       </section>
 
-      <section className="mt-10">
-        <h2 className="text-lg text-foreground">Productivity overview</h2>
-        <div className="mt-4 grid gap-4 sm:grid-cols-3">
-          {metrics.map(({ label, value, delta, icon: Icon }) => (
-            <div key={label} className="card-surface p-5">
-              <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3">
-                <p className="min-w-0 truncate text-sm text-muted-foreground">{label}</p>
-                <Icon className="h-4 w-4 shrink-0 text-primary" />
-              </div>
-              <p className="mt-3 text-3xl font-semibold tracking-tight text-foreground">{value}</p>
-              <p className="mt-1 text-xs font-medium text-primary">{delta}</p>
-            </div>
-          ))}
-        </div>
-      </section>
+      <section className="mt-12">
+        <h2 className="text-2xl text-foreground">Productivity tools</h2>
+        <p className="mt-1 text-sm text-muted-foreground">Pick a tool to get started</p>
 
-      <section className="mt-10">
-        <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3">
-          <h2 className="min-w-0 truncate text-lg text-foreground">Recent activity</h2>
-          <Link to="/history" className="shrink-0 text-sm font-semibold text-primary">
-            View all
-          </Link>
-        </div>
-        <div className="card-surface mt-4 divide-y divide-border">
-          {historyItems.slice(0, 3).map((item) => (
-            <div key={item.id} className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-4 p-4">
-              <div className="min-w-0">
-                <p className="truncate text-sm font-medium text-foreground">{item.title}</p>
-                <p className="mt-0.5 truncate text-xs text-muted-foreground">
-                  {item.type} · {item.meta}
-                </p>
-              </div>
-              <span className="flex shrink-0 items-center gap-1.5 text-xs text-muted-foreground">
-                <Clock className="h-3.5 w-3.5" />
-                {item.when}
+        <div className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {tools.map(({ to, icon: Icon, title, copy }) => (
+            <div
+              key={to}
+              className="card-surface flex flex-col p-5 transition duration-200 hover:-translate-y-0.5 hover:border-primary/40"
+            >
+              <span className="grid h-11 w-11 place-items-center rounded-full bg-accent text-primary">
+                <Icon className="h-5 w-5" strokeWidth={2} />
               </span>
+              <h3 className="mt-4 text-lg text-foreground">{title}</h3>
+              <p className="mt-1.5 flex-1 text-sm leading-relaxed text-muted-foreground">{copy}</p>
+              <Link
+                to={to}
+                className="mt-5 inline-flex items-center gap-1.5 self-start rounded-xl bg-accent px-4 py-2 text-sm font-semibold text-primary transition hover:bg-primary hover:text-primary-foreground"
+              >
+                Open tool <ArrowRight className="h-3.5 w-3.5" />
+              </Link>
             </div>
           ))}
         </div>
       </section>
 
-      <Disclaimer className="mt-8" />
+      <Disclaimer className="mt-10" />
     </div>
   );
 }

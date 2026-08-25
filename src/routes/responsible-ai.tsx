@@ -5,13 +5,13 @@ import { Disclaimer, PageHeader } from "@/components/Disclaimer";
 export const Route = createFileRoute("/responsible-ai")({
   head: () => ({
     meta: [
-      { title: "Responsible AI — DeskFlow AI" },
+      { title: "Responsible AI — Your AI Productivity Hub" },
       {
         name: "description",
         content:
-          "How DeskFlow AI handles accuracy, privacy, human oversight and transparency in every generated output.",
+          "How Your AI Productivity Hub handles accuracy, privacy, human oversight and transparency in every generated output.",
       },
-      { property: "og:title", content: "Responsible AI — DeskFlow AI" },
+      { property: "og:title", content: "Responsible AI — Your AI Productivity Hub" },
       {
         property: "og:description",
         content: "Our principles for accuracy, privacy, oversight and transparency.",
@@ -25,7 +25,7 @@ const principles = [
   {
     icon: UserCheck,
     title: "Human in the loop",
-    copy: "DeskFlow drafts, you decide. Nothing is sent, shared or committed on your behalf without an explicit review step.",
+    copy: "The assistant drafts, you decide. Nothing is sent, shared or committed on your behalf without an explicit review step.",
   },
   {
     icon: Eye,
@@ -50,7 +50,7 @@ function ResponsibleAI() {
       <PageHeader
         eyebrow="Responsible AI"
         title="How we use AI at work, carefully"
-        description="DeskFlow is built to speed up your writing and planning without quietly taking over your judgement."
+        description="This hub is built to speed up your writing and planning without quietly taking over your judgement."
       />
 
       <Disclaimer />
