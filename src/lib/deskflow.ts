@@ -1,5 +1,5 @@
 export const AI_DISCLAIMER =
-  "AI-generated content may contain errors. Users should review and verify all important information before using or sharing it.";
+  "AI-generated content may contain errors or incomplete information. Always review and verify important information before using or sharing it.";
 
 export type Tone = "Formal" | "Friendly" | "Persuasive";
 
@@ -17,7 +17,7 @@ const openings: Record<Tone, (r: string) => string> = {
 };
 
 const closings: Record<Tone, string> = {
-  Formal: "Thank you for your time and consideration.\n\nKind regards,\nLelethu\nDeskFlow AI",
+  Formal: "Thank you for your time and consideration.\n\nKind regards,\nLelethu",
   Friendly: "Thanks so much — let me know what works for you!\n\nBest,\nLelethu",
   Persuasive:
     "If this sounds right, I can have everything ready on your side by Friday. Shall I go ahead?\n\nBest regards,\nLelethu",

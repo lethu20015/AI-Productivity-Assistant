@@ -10,9 +10,11 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ChatRouteImport } from './routes/chat'
 import { Route as EmailRouteImport } from './routes/email'
 import { Route as HistoryRouteImport } from './routes/history'
 import { Route as PlannerRouteImport } from './routes/planner'
+import { Route as ResearchRouteImport } from './routes/research'
 import { Route as ResponsibleAiRouteImport } from './routes/responsible-ai'
 import { Route as SettingsRouteImport } from './routes/settings'
 import { Route as SummariserRouteImport } from './routes/summariser'
@@ -20,6 +22,11 @@ import { Route as SummariserRouteImport } from './routes/summariser'
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ChatRoute = ChatRouteImport.update({
+  id: '/chat',
+  path: '/chat',
   getParentRoute: () => rootRouteImport,
 } as any)
 const EmailRoute = EmailRouteImport.update({
@@ -35,6 +42,11 @@ const HistoryRoute = HistoryRouteImport.update({
 const PlannerRoute = PlannerRouteImport.update({
   id: '/planner',
   path: '/planner',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ResearchRoute = ResearchRouteImport.update({
+  id: '/research',
+  path: '/research',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ResponsibleAiRoute = ResponsibleAiRouteImport.update({
@@ -55,18 +67,22 @@ const SummariserRoute = SummariserRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/chat': typeof ChatRoute
   '/email': typeof EmailRoute
   '/history': typeof HistoryRoute
   '/planner': typeof PlannerRoute
+  '/research': typeof ResearchRoute
   '/responsible-ai': typeof ResponsibleAiRoute
   '/settings': typeof SettingsRoute
   '/summariser': typeof SummariserRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/chat': typeof ChatRoute
   '/email': typeof EmailRoute
   '/history': typeof HistoryRoute
   '/planner': typeof PlannerRoute
+  '/research': typeof ResearchRoute
   '/responsible-ai': typeof ResponsibleAiRoute
   '/settings': typeof SettingsRoute
   '/summariser': typeof SummariserRoute
@@ -74,9 +90,11 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/chat': typeof ChatRoute
   '/email': typeof EmailRoute
   '/history': typeof HistoryRoute
   '/planner': typeof PlannerRoute
+  '/research': typeof ResearchRoute
   '/responsible-ai': typeof ResponsibleAiRoute
   '/settings': typeof SettingsRoute
   '/summariser': typeof SummariserRoute
@@ -85,27 +103,33 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/chat'
     | '/email'
     | '/history'
     | '/planner'
+    | '/research'
     | '/responsible-ai'
     | '/settings'
     | '/summariser'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/chat'
     | '/email'
     | '/history'
     | '/planner'
+    | '/research'
     | '/responsible-ai'
     | '/settings'
     | '/summariser'
   id:
     | '__root__'
     | '/'
+    | '/chat'
     | '/email'
     | '/history'
     | '/planner'
+    | '/research'
     | '/responsible-ai'
     | '/settings'
     | '/summariser'
@@ -113,9 +137,11 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ChatRoute: typeof ChatRoute
   EmailRoute: typeof EmailRoute
   HistoryRoute: typeof HistoryRoute
   PlannerRoute: typeof PlannerRoute
+  ResearchRoute: typeof ResearchRoute
   ResponsibleAiRoute: typeof ResponsibleAiRoute
   SettingsRoute: typeof SettingsRoute
   SummariserRoute: typeof SummariserRoute
@@ -128,6 +154,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/chat': {
+      id: '/chat'
+      path: '/chat'
+      fullPath: '/chat'
+      preLoaderRoute: typeof ChatRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/email': {
@@ -149,6 +182,13 @@ declare module '@tanstack/react-router' {
       path: '/planner'
       fullPath: '/planner'
       preLoaderRoute: typeof PlannerRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/research': {
+      id: '/research'
+      path: '/research'
+      fullPath: '/research'
+      preLoaderRoute: typeof ResearchRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/responsible-ai': {
@@ -177,9 +217,11 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ChatRoute: ChatRoute,
   EmailRoute: EmailRoute,
   HistoryRoute: HistoryRoute,
   PlannerRoute: PlannerRoute,
+  ResearchRoute: ResearchRoute,
   ResponsibleAiRoute: ResponsibleAiRoute,
   SettingsRoute: SettingsRoute,
   SummariserRoute: SummariserRoute,

@@ -1,19 +1,19 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
-import { Copy, Check, Wand2 } from "lucide-react";
+import { Copy, Check, Wand2, Loader2, AlertCircle, CheckCircle2 } from "lucide-react";
 import { Disclaimer, PageHeader, Field, inputClass, buttonClass } from "@/components/Disclaimer";
 import { generateEmail, type Tone } from "@/lib/deskflow";
 
 export const Route = createFileRoute("/email")({
   head: () => ({
     meta: [
-      { title: "Email Generator — DeskFlow AI" },
+      { title: "Smart Email Generator — Your AI Productivity Hub" },
       {
         name: "description",
         content:
-          "Draft professional work emails with a chosen tone: formal, friendly or persuasive.",
+          "Draft polished, professional emails in seconds with full tone and audience control.",
       },
-      { property: "og:title", content: "Email Generator — DeskFlow AI" },
+      { property: "og:title", content: "Smart Email Generator — Your AI Productivity Hub" },
       {
         property: "og:description",
         content: "Turn a few bullet points into a polished, on-tone work email.",
@@ -34,10 +34,25 @@ function EmailGenerator() {
   const [tone, setTone] = useState<Tone>("Persuasive");
   const [output, setOutput] = useState<{ subject: string; body: string } | null>(null);
   const [copied, setCopied] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState(false);
 
   const handleGenerate = () => {
-    setOutput(generateEmail({ recipient, purpose, details, tone }));
+    setSuccess(false);
+    if (!recipient.trim() || !purpose.trim()) {
+      setError("Add a recipient and a purpose so the draft has enough context.");
+      return;
+    }
+    setError(null);
     setCopied(false);
+    setLoading(true);
+    setOutput(null);
+    setTimeout(() => {
+      setOutput(generateEmail({ recipient, purpose, details, tone }));
+      setLoading(false);
+      setSuccess(true);
+    }, 900);
   };
 
   const handleCopy = async () => {
@@ -52,7 +67,7 @@ function EmailGenerator() {
       <PageHeader
         eyebrow="Email Generator"
         title="Write a professional email"
-        description="Give DeskFlow the essentials and pick a tone. You'll get a complete draft you can review, edit and send."
+        description="Give the assistant the essentials and pick a tone. You'll get a complete draft you can review, edit and send."
       />
 
       <div className="grid gap-6 lg:grid-cols-[1fr_1fr]">
@@ -99,10 +114,27 @@ function EmailGenerator() {
               ))}
             </div>
           </Field>
-          <button type="button" onClick={handleGenerate} className={`${buttonClass} w-full`}>
-            <Wand2 className="h-4 w-4" />
-            Generate email
+          <button
+            type="button"
+            onClick={handleGenerate}
+            disabled={loading}
+            className={`${buttonClass} w-full`}
+          >
+            {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Wand2 className="h-4 w-4" />}
+            {loading ? "Generating…" : "Generate email"}
           </button>
+          {error && (
+            <p className="flex items-center gap-2 rounded-xl bg-destructive/10 px-3.5 py-3 text-sm text-destructive">
+              <AlertCircle className="h-4 w-4 shrink-0" />
+              {error}
+            </p>
+          )}
+          {success && !loading && (
+            <p className="flex items-center gap-2 rounded-xl bg-accent px-3.5 py-3 text-sm font-medium text-accent-foreground">
+              <CheckCircle2 className="h-4 w-4 shrink-0" />
+              Draft ready — review before sending.
+            </p>
+          )}
         </div>
 
         <div className="card-surface flex flex-col p-5 sm:p-6">
@@ -112,7 +144,7 @@ function EmailGenerator() {
               <button
                 type="button"
                 onClick={handleCopy}
-                className="flex shrink-0 items-center gap-1.5 rounded-lg border border-border px-2.5 py-1.5 text-xs font-medium text-foreground"
+                className="flex shrink-0 items-center gap-1.5 rounded-lg border border-border px-2.5 py-1.5 text-xs font-medium text-foreground transition hover:border-primary/50 hover:text-primary"
               >
                 {copied ? <Check className="h-3.5 w-3.5" /> : <Copy className="h-3.5 w-3.5" />}
                 {copied ? "Copied" : "Copy"}
@@ -120,7 +152,15 @@ function EmailGenerator() {
             )}
           </div>
 
-          {output ? (
+          {loading ? (
+            <div className="mt-4 flex-1 space-y-3">
+              <div className="h-4 w-1/3 animate-pulse rounded bg-secondary" />
+              <div className="h-3 w-full animate-pulse rounded bg-secondary" />
+              <div className="h-3 w-5/6 animate-pulse rounded bg-secondary" />
+              <div className="h-3 w-2/3 animate-pulse rounded bg-secondary" />
+            </div>
+          ) : output ? (
+
             <div className="mt-4 flex-1">
               <p className="text-xs uppercase tracking-[0.12em] text-muted-foreground">Subject</p>
               <p className="mt-1 text-sm font-semibold text-foreground">{output.subject}</p>

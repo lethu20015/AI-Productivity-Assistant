@@ -78,9 +78,9 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "DeskFlow AI" },
+      { title: "Your AI Productivity Hub" },
       { name: "description", content: "AI-powered workplace productivity assistant." },
-      { name: "author", content: "DeskFlow AI" },
+      { name: "author", content: "Your AI Productivity Hub" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
