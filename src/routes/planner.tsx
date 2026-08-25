@@ -120,14 +120,6 @@ function Planner() {
               </li>
             ))}
           </ul>
-          <button
-            type="button"
-            onClick={() => setPlan(planTasks(tasks))}
-            className={`${buttonClass} mt-5 w-full sm:w-auto`}
-          >
-            <Sparkles className="h-4 w-4" />
-            Organise & schedule
-          </button>
         </div>
 
         <div className="card-surface h-fit space-y-4 p-5 sm:p-6">
