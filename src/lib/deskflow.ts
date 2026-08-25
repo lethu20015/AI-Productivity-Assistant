@@ -73,8 +73,9 @@ export function summariseNotes(notes: string): MeetingSummary {
 
   const actions = (actionLines.length ? actionLines : points.slice(0, 3)).map((l, i) => ({
     task: l.charAt(0).toUpperCase() + l.slice(1),
-    owner: owners[i % owners.length],
-    deadline: ["Tomorrow, 17:00", "Fri 28 Aug", "Mon 31 Aug", "Wed 2 Sep", "Fri 4 Sep"][i % 5],
+    owner: owners[i % owners.length] ?? "Team",
+    deadline:
+      ["Tomorrow, 17:00", "Fri 28 Aug", "Mon 31 Aug", "Wed 2 Sep", "Fri 4 Sep"][i % 5] ?? "This week",
   }));
 
   return {
@@ -130,7 +131,7 @@ export function planTasks(tasks: Task[]) {
     "16:00 – 17:00 · Wrap-up & review",
   ];
 
-  const today = sorted.slice(0, 5).map((t, i) => ({ ...t, block: blocks[i % blocks.length] }));
+  const today = sorted.slice(0, 5).map((t, i) => ({ ...t, block: blocks[i % blocks.length] ?? "Flexible" }));
   const week = ["Tuesday", "Wednesday", "Thursday", "Friday"].map((day, i) => ({
     day,
     items: sorted.slice(5).filter((_, idx) => idx % 4 === i),
