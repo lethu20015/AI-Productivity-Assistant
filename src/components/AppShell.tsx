@@ -120,7 +120,8 @@ export function AppShell({ children }: { children: ReactNode }) {
         <SidebarFooter />
       </aside>
 
-      <header className="sticky top-0 z-30 flex items-center gap-3 border-b border-border bg-card/90 px-4 py-3 backdrop-blur lg:ml-64 lg:px-8">
+      <div className="lg:pl-64">
+      <header className="sticky top-0 z-30 flex items-center gap-3 border-b border-border bg-card/90 px-4 py-3 backdrop-blur lg:px-8">
         <button
           type="button"
           aria-label="Open menu"
@@ -144,6 +145,13 @@ export function AppShell({ children }: { children: ReactNode }) {
           <Settings className="h-4.5 w-4.5" />
         </Link>
       </header>
+
+      <main>
+        <div className="mx-auto w-full max-w-6xl px-4 py-8 pb-24 sm:px-6 lg:px-10 lg:py-12">
+          {children}
+        </div>
+      </main>
+      </div>
 
       {open && (
         <div className="fixed inset-0 z-50 lg:hidden">
@@ -174,11 +182,6 @@ export function AppShell({ children }: { children: ReactNode }) {
         </div>
       )}
 
-      <main className="lg:pl-64">
-        <div className="mx-auto w-full max-w-6xl px-4 py-8 pb-24 sm:px-6 lg:px-10 lg:py-12">
-          {children}
-        </div>
-      </main>
     </div>
   );
 }
