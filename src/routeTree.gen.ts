@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as EmailRouteImport } from './routes/email'
+import { Route as PlannerRouteImport } from './routes/planner'
 import { Route as SummariserRouteImport } from './routes/summariser'
 
 const IndexRoute = IndexRouteImport.update({
@@ -23,6 +24,11 @@ const EmailRoute = EmailRouteImport.update({
   path: '/email',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PlannerRoute = PlannerRouteImport.update({
+  id: '/planner',
+  path: '/planner',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SummariserRoute = SummariserRouteImport.update({
   id: '/summariser',
   path: '/summariser',
@@ -32,30 +38,34 @@ const SummariserRoute = SummariserRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/email': typeof EmailRoute
+  '/planner': typeof PlannerRoute
   '/summariser': typeof SummariserRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/email': typeof EmailRoute
+  '/planner': typeof PlannerRoute
   '/summariser': typeof SummariserRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/email': typeof EmailRoute
+  '/planner': typeof PlannerRoute
   '/summariser': typeof SummariserRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/email' | '/summariser'
+  fullPaths: '/' | '/email' | '/planner' | '/summariser'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/email' | '/summariser'
-  id: '__root__' | '/' | '/email' | '/summariser'
+  to: '/' | '/email' | '/planner' | '/summariser'
+  id: '__root__' | '/' | '/email' | '/planner' | '/summariser'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   EmailRoute: typeof EmailRoute
+  PlannerRoute: typeof PlannerRoute
   SummariserRoute: typeof SummariserRoute
 }
 
@@ -75,6 +85,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof EmailRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/planner': {
+      id: '/planner'
+      path: '/planner'
+      fullPath: '/planner'
+      preLoaderRoute: typeof PlannerRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/summariser': {
       id: '/summariser'
       path: '/summariser'
@@ -88,6 +105,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   EmailRoute: EmailRoute,
+  PlannerRoute: PlannerRoute,
   SummariserRoute: SummariserRoute,
 }
 export const routeTree = rootRouteImport
